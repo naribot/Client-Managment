@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@apollo/client": "^3.10.8",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "framer-motion": "^11.2.13",
+    "graphql": "^16.9.0",
+    "react-router-dom": "6.4"
+  }
+}
