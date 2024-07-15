@@ -1,1 +1,23 @@
-
+body {
+    background-color: #e0f7fa;
+  }
+  
+  h1 {
+    color: #00796b;
+  }
+  
+  .container {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 20px;
+  }
+  
+  a {
+    color: #00796b;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
