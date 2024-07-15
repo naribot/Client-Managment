@@ -1,20 +1,17 @@
+// src/App.tsx
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
-import { Box, Flex, Heading, Link as ChakraLink } from '@chakra-ui/react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Listing from './pages/Listing';
+import Detail from './pages/Detail';
 
 const App: React.FC = () => {
   return (
-    <Box p={4}>
-      <Flex justify="space-between" align="center">
-        <Heading as="h1">Client Management</Heading>
-        <ChakraLink as={Link} to="/clients">
-          Clients
-        </ChakraLink>
-      </Flex>
-      <Box mt={4}>
-        <Outlet />
-      </Box>
-    </Box>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Listing />} />
+        <Route path="/details/:id" element={<Detail />} />
+      </Routes>
+    </Router>
   );
 };
 

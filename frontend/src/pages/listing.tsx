@@ -1,46 +1,38 @@
 import React from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
-import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import { GET_CLIENTS } from '../querey';
+import { Client } from '../type';
 
-const GET_CLIENTS = gql`
-  query GetClients {
-    clients {
-      id
-      name
-      age
-    }
-  }
-`;
-
-const Clients: React.FC = () => {
+const Listing: React.FC = () => {
   const { loading, error, data } = useQuery(GET_CLIENTS);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <Table>
-      <Thead>
-        <Tr>
-          <Th>ID</Th>
-          <Th>Name</Th>
-          <Th>Age</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {data.clients.map((client: { id: string; name: string; age: number }) => (
-          <Tr key={client.id}>
-            <Td>{client.id}</Td>
-            <Td>
-              <Link to={`/clients/${client.id}`}>{client.name}</Link>
-            </Td>
-            <Td>{client.age}</Td>
-          </Tr>
-        ))}
-      </Tbody>
-    </Table>
+    <div>
+      <h1>Client List</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.clients.map((client: Client) => (
+            <tr key={client.id}>
+              <td>{client.id}</td>
+              <td><Link to={`/details/${client.id}`}>{client.name}</Link></td>
+              <td>{client.age}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
-export default Clients;
+export default Listing;

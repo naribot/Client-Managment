@@ -1,48 +1,38 @@
+// src/pages/Detail.tsx
 import React from 'react';
+import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
-import { Box, Text } from '@chakra-ui/react';
+import { GET_CLIENTS } from '../querey';
+import { Client } from '../type';
 
-const GET_CLIENT = gql`
-  query GetClient($id: ID!) {
-    client(id: $id) {
-      id
-      name
-      age
-      gender
-      additionalInfo {
-        company
-        email
-        phone
-        address
-      }
-    }
-  }
-`;
-
-const ClientDetail: React.FC = () => {
+const Detail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { loading, error, data } = useQuery(GET_CLIENT, {
-    variables: { id },
-  });
+  const { loading, error, data } = useQuery(GET_CLIENTS);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
-  const { name, age, gender, additionalInfo } = data.client;
+  const client = data.clients.find((client: Client) => client.id === id);
+
+  if (!client) return <p>Client not found</p>;
 
   return (
-    <Box>
-      <Text>ID: {id}</Text>
-      <Text>Name: {name}</Text>
-      <Text>Age: {age}</Text>
-      <Text>Gender: {gender}</Text>
-      <Text>Company: {additionalInfo.company}</Text>
-      <Text>Email: {additionalInfo.email}</Text>
-      <Text>Phone: {additionalInfo.phone}</Text>
-      <Text>Address: {additionalInfo.address}</Text>
-    </Box>
+    <div>
+      <h1>Client Details</h1>
+      <p>ID: {client.id}</p>
+      <p>Name: {client.name}</p>
+      <p>Age: {client.age}</p>
+      <p>Gender: {client.gender}</p>
+      {client.additionalInfo && (
+        <div>
+          <p>Address: {client.additionalInfo.address}</p>
+          <p>Company: {client.additionalInfo.company}</p>
+          <p>Email: {client.additionalInfo.email}</p>
+          <p>Phone: {client.additionalInfo.phone}</p>
+        </div>
+      )}
+    </div>
   );
 };
 
-export default ClientDetail;
+export default Detail;
