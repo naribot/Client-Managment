@@ -1,23 +1,20 @@
-// src/pages/Detail.tsx
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { GET_CLIENTS } from '../querey';
 import { Client } from '../type';
+import './listing.css';
 
 const Detail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { loading, error, data } = useQuery(GET_CLIENTS);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  const { data } = useQuery(GET_CLIENTS);
 
   const client = data.clients.find((client: Client) => client.id === id);
 
   if (!client) return <p>Client not found</p>;
 
   return (
-    <div>
+    <div className="list">
       <h1>Client Details</h1>
       <p>ID: {client.id}</p>
       <p>Name: {client.name}</p>
