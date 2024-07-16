@@ -5,8 +5,14 @@ import { GET_CLIENTS } from '../querey';
 import { Client } from '../type';
 
 const Listing: React.FC = () => {
-  const { data } = useQuery(GET_CLIENTS);
+  const { loading, error, data } = useQuery(GET_CLIENTS);
+  
+  if (loading) return <p>...loading</p>
+  if (error) return <p>Error: {error.message}</p>;
 
+  if (!data || !data.clients) {
+    return <p>No clients found</p>;
+  }
   
   return (
     <div classname = "list">
@@ -19,6 +25,7 @@ const Listing: React.FC = () => {
             <th>Age</th>
           </tr>
         </thead>
+        
         <tbody>
           {data.clients.map((client: Client) => (
             <tr key={client.id}>
