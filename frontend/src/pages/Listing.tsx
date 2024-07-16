@@ -5,13 +5,11 @@ import { GET_CLIENTS } from '../querey';
 import { Client } from '../type';
 
 const Listing: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_CLIENTS);
+  const { data } = useQuery(GET_CLIENTS);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
+  
   return (
-    <div>
+    <div classname = "list">
       <h1>Client List</h1>
       <table>
         <thead>
